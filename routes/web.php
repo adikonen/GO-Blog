@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome',["title" => "Selamat Datang"]);
+
+#user routes
+/*
+Route::controller(UserController::class)->group(function(){
+    Route::get("/register", 'register')->name("register-view")->middleware("guest");
+    Route::post("/register/store","store")->name("register")->middleware("guest");
+    Route::get("/login", "loginView")->name("login-view")->middleware("guest");
+    Route::post("/login/authenticate")->name("login")->middleware("guest");
+    Route::post("/logout","logout")->name("logout")->middleware("auth");
+});
+*/
+ 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+ 
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('google')->user();
+ 
+    // $user->token
+});
+#posts routes
 Route::resource("/post", PostController::class, [
     "names" => [
         "index" => "posts",
