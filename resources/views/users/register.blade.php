@@ -1,21 +1,25 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url("css/library.css") }}">
-    @yield("css")
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>{{ $title }}</title>
-  </head>
-  <body class="bg-gray">
-    <div class="container mx-auto p-5">  
-        <div class="card m-5">
-            <h1 class="text-center">Hello World!</h1>
-        </div>
-    </div>
-    @yield("js")
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
-</html>
+@extends("templates.login-base")
+
+@section("main")
+  <div class="custom-card bg-white px-5 py-2 mx-auto mt-5">
+    <p class="mt-2 fs-3">Daftar</p>
+  
+    @include("templates.child.custom-input", [
+      "id" => "name",
+      "label" => "Masukan Username", 
+      "class" => "my-3" 
+    ])
+    @include("templates.child.custom-input", [
+      "id" => "password",
+      "type" => "password",
+      "label" => "Masukan Password",
+      
+    ])
+    @include("templates.child.custom-input", [
+      "id" => "email",
+      "type" => "email",
+      "label" => "Masukan Email"
+    ])  
+    <button class="btn btn-dark mt-4 mb-2 circle" style="width: 100%">Daftar</button>
+    <p class="mb-1 small">Kembali <a href="{{ route("login") }}">Login</a></p>
+@endsection

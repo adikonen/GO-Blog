@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleSocialiteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,28 +16,26 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::view('/', 'welcome',["title" => "Selamat Datang"]);
+Route::view('/', 'welcome',["title" => "Selamat Datang"])->middleware("auth");
+
 
 #user routes
-/*
+
 Route::controller(UserController::class)->group(function(){
-    Route::get("/register", 'register')->name("register-view")->middleware("guest");
-    Route::post("/register/store","store")->name("register")->middleware("guest");
-    Route::get("/login", "loginView")->name("login-view")->middleware("guest");
-    Route::post("/login/authenticate")->name("login")->middleware("guest");
-    Route::post("/logout","logout")->name("logout")->middleware("auth");
+    Route::middleware("guest")->group(function(){
+        Route::get("/register", 'register')->name("register-view");
+        Route::post("/register/store","store")->name("register");
+        Route::get("/login", "loginView")->name("login");
+        Route::post("/login/authenticate")->name("authenticate");
+    });
+    Route::get("/logout","logout")->name("logout")->middleware("auth");
 });
-*/
- 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
+
+Route::group(["middleware" => "guest", "controller" => GoogleSocialiteController::class], function(){
+    Route::get("auth/redirect", "redirectToGoogle")->name("google-redirect");
+    Route::get("auth/callback", "handleCallback")->name("google-callback");   
 });
- 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('google')->user();
- 
-    // $user->token
-});
+
 #posts routes
 Route::resource("/post", PostController::class, [
     "names" => [

@@ -30,3 +30,9 @@ body::-webkit-scrollbar {
 .circle {
     border-radius: 100rem !important;
 }
+.custom-card {
+    width: 38vw;
+    max-width: 600px;
+    min-width: 300px;
+    border: 1px solid #f8f8f8;
+}
