@@ -27,7 +27,7 @@ Route::controller(UserController::class)->group(function(){
         Route::get("/register", 'register')->name("register-view");
         Route::post("/register/store","store")->name("register");
         Route::get("/login", "loginView")->name("login");
-        Route::post("/login/authenticate")->name("authenticate");
+        Route::post("/login/authenticate", "authenticate")->name("authenticate");
     });
     Route::get("/logout","logout")->name("logout")->middleware("auth");
 });

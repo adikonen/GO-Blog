@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Requests\StoreUserRequest;
 class UserController extends Controller
 {
  
@@ -26,9 +26,12 @@ class UserController extends Controller
         return view("users.login", $context);
     }
     
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated["password"] = bcrypt($validated["password"]);
+        User::create($validated);
+        return redirect("/");
     }
 
     public function show(User $user)
@@ -46,9 +49,23 @@ class UserController extends Controller
         //
     }
 
-    public function authtenticate()
+    public function authenticate(Request $request)
     {
-    
+       
+        $credentials = $request->validate([
+            'name' => ['required'],
+            'password' => ['required'],
+        ]);
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->intended('/');
+        }
+ 
+        return back()->withErrors([
+            'name' => 'Gagal Login',
+        ]);
     }
     public function logout(User $user)
     {
