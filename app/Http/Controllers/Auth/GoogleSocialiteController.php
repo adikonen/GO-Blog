@@ -17,32 +17,6 @@ class GoogleSocialiteController extends Controller
 
     public function handleCallback()
     {
-        try 
-        {
-            $googleAccount = Socialite::driver('google')->user();
-            $findUser = User::where("social_id", $googleAccount->id)->first();
-            
-            if($findUser === null)
-            {
-                $newUser = User::create([
-                    "name" => $googleAccount->name,
-                    "email" => $googleAccount->email,
-                    "password" => bcrypt("olangGila")
-                ]);
-                #karena null able sistem malah otomatis memprioritaskan memberikan nilai null ketimbang menulis nilai itu sendiri
-                $newUser->social_id = $googleAccount->id;
-                $newUser->social_type = 'google';
-                $newUser->save();
-
-                Auth::login($newUser);
-            }
-            else Auth::login($findUser);
-
-            return redirect("/");
-        }
-        catch(Exception $e)
-        {
-            return redirect()->to("login")->withErrors("Gagal Login!");
-        }
+        return CallbackHandler::driver('google');
     }
 }

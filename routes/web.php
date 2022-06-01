@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GithubSocialiteController;
 use App\Http\Controllers\Auth\GoogleSocialiteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome',["title" => "Selamat Datang"])->middleware("auth");
+Route::view('/', 'welcome',["title" => "Selamat Datang"])->middleware("auth")->name("home");
 
 
 #user routes
@@ -31,9 +32,16 @@ Route::controller(UserController::class)->group(function(){
     Route::get("/logout","logout")->name("logout")->middleware("auth");
 });
 
-Route::group(["middleware" => "guest", "controller" => GoogleSocialiteController::class], function(){
-    Route::get("auth/redirect", "redirectToGoogle")->name("google-redirect");
-    Route::get("auth/callback", "handleCallback")->name("google-callback");   
+#socialite route
+Route::middleware("guest")->group(function(){
+    Route::controller(GoogleSocialiteController::class)->group(function(){
+        Route::get("auth/redirect", "redirectToGoogle")->name("google-redirect");
+        Route::get("auth/callback", "handleCallback")->name("google-callback");   
+    });
+    Route::controller(GithubSocialiteController::class)->group(function(){
+        Route::get("auth/redirect/github", "redirectToGithub")->name("github-redirect");
+        Route::get("auth/callback/github", "handleCallback")->name("github-callback");
+    });
 });
 
 #posts routes

@@ -18,8 +18,8 @@
     <small>Atau, Lanjut Dengan</small>     
     <div class="button-group d-md-flex my-2 align-items-center justify-content-around">
         <a href="{{ route("google-redirect") }}" class="d-block btn px-4 my-2 bi bi-google btn-danger circle text-decoration-none"> Google</a>
-        <a class="d-block btn px-5 bi bi-facebook btn-primary circle my-2"> Facebook</a>    
-        <a class="d-block btn px-4 bi bi-github btn-dark circle my-2"> Github</a>    
+        <a href="#" class="d-block btn px-5 bi bi-facebook btn-primary circle my-2"> Facebook</a>    
+        <a href="{{ route("github-redirect") }}" class="d-block btn px-4 bi bi-github btn-dark circle my-2"> Github</a>    
     </div>
   </div>
 
