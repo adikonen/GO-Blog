@@ -2,18 +2,24 @@
 
 namespace Database\Seeders;
 
+use App\Models\PostCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    use WithoutModelEvents;
+ 
     /**
-     * Seed the application's database.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            PositionSeeder::class,
+            PostCategorySeeder::class,
+        ]);
     }
 }

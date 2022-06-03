@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\GithubSocialiteController;
-use App\Http\Controllers\Auth\GoogleSocialiteController;
+use App\Models\PostCategory;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\Auth\GithubSocialiteController;
+use App\Http\Controllers\Auth\GoogleSocialiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +18,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::view('/', 'welcome',["title" => "Selamat Datang"])->middleware("auth")->name("home");
-
-
+#main route
+Route::get("/", [PostController::class, 'index'])->middleware("auth");
 #user routes
 
 Route::controller(UserController::class)->group(function(){
@@ -45,26 +45,36 @@ Route::middleware("guest")->group(function(){
 });
 
 #posts routes
+// Route::resource("/post", PostController::class, [
+//     "names" => [
+//         "index" => "posts",
+//         "show" => "single-post"
+//     ],
+//     "only" => [
+//         "index",
+//         "show"    
+//     ]
+// ]);
 Route::resource("/post", PostController::class, [
     "names" => [
-        "index" => "posts",
-        "show" => "single-post"
-    ],
-    "only" => [
-        "index",
-        "show"    
-    ]
-]);
-Route::resource("/post", PostController::class, [
-    "names" => [
+        "index" => "home",
+        "show" => "show-post",
         "create" => "create-post",
         "edit" => "edit-post",
         "store" => "store-post",
         "update" => "update-post",
         "delete" => "delete-post"    
     ],
-    "except" => [
-        "index",
-        "show"    
-    ]
+])->middleware("auth");
+
+Route::resource("/post-categories", PostCategoryController::class, [
+    "names" => [
+        "index" => "index-post-categories",
+        "show" => "show-post-categories",
+        "create" => "create-post-categories",
+        "edit" => "edit-post-categories",
+        "store" => "store-post-categories",
+        "update" => "update-post-categories",
+        "delete" => "delete-post-categories"    
+    ],
 ])->middleware("auth");

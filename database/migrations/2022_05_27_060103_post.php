@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
             $table->integer("like")->default(0);
+            $table->string("title");
             $table->text("description");
+            $table->string("image")->nullable();
             $table->foreignId("post_category_id")->constrained("post_categories")->cascadeOnDelete();
             $table->timestamps();
         });

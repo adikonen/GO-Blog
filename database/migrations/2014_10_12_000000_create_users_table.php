@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->string("social_id")->nullable();
             $table->string("social_type")->nullable();
+            $table->unsignedBigInteger("position_id")->default(1)->nullable();
+            $table->foreign("position_id")->references("id")->on("positions")->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

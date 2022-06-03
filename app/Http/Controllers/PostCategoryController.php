@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\PostCategory;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StorePostCategoryRequest;
 use App\Http\Requests\UpdatePostCategoryRequest;
 
 class PostCategoryController extends Controller
 {
+    #seluruh method hanya diakses oleh admin kecuali show
+    public function __construct()
+    {
+        $this->authorizeResource(PostCategory::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,12 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-        //
+        //memperlihatkan seluruh data post kategori (hnya admin)
+        $context = [
+            'title' => "GO-Blog | Daftar Post Kategori",
+            'postCategories' => PostCategory::all()
+        ];
+        return view("post-categories.index", $context);
     }
 
     /**
@@ -25,7 +38,7 @@ class PostCategoryController extends Controller
      */
     public function create()
     {
-        //
+        //menampilkan halaman pembuatan post kategori (hanya admn)
     }
 
     /**
@@ -36,7 +49,7 @@ class PostCategoryController extends Controller
      */
     public function store(StorePostCategoryRequest $request)
     {
-        //
+        //store (hanya admin)
     }
 
     /**
@@ -47,7 +60,13 @@ class PostCategoryController extends Controller
      */
     public function show(PostCategory $postCategory)
     {
-        //
+        //memperlihatkan sebuah postingan yang berdasarkan kategori (semua)
+        $context = [
+          'title' => "Postingan" . $postCategory->name,
+          'posts' => $postCategory->posts
+        ];
+
+        return view("welcome", $context);
     }
 
     /**

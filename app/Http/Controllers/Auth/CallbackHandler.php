@@ -15,9 +15,10 @@ class CallbackHandler
         }
         catch(Exception $e)
         {
+            #dd($e->getMessage());
             return redirect()->to("login")->withErrors("Gagal Login!");
         }
-        return redirect("/");
+        return redirect()->route("home");
     }
 
     private static function control(string $driver)

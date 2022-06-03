@@ -43,6 +43,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = [
+        'isAdmin'
+    ];
+
+    public function getIsAdminAttribute() : bool
+    {
+        return $this->position->name == "admin";
+    }
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -50,5 +59,9 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\PostCategory;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class PostCategoryPolicy
 {
@@ -16,9 +17,16 @@ class PostCategoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
+    public function before(User $user) : ?bool
+    {
+        #jika null maka akan menjalankan method dari policynya
+        return $user->isAdmin ? true : null;
+    }
+
     public function viewAny(User $user)
     {
-        //
+        #karena sudah di berikan value oleh method before jika false maka method ini akan berjalan
+        return Response::deny("Anda dilarang masuk!");    
     }
 
     /**
@@ -30,7 +38,7 @@ class PostCategoryPolicy
      */
     public function view(User $user, PostCategory $postCategory)
     {
-        //
+        return true;
     }
 
     /**

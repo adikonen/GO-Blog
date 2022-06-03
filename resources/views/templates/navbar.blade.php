@@ -10,13 +10,13 @@
           <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">Buat Post</a>
+          <a class="nav-link text-white" href="{{ route("create-post") }}">Buat Post</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{{ url("") }}">Login</a>
+          <a class="nav-link active text-white" aria-current="page" href="{{ route("logout") }}">Logout</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link" href="{{ route("index-post-categories") }}" aria-current="page">Buat Kategori</a>
         </li>
       </ul>
       <form class="d-flex">
